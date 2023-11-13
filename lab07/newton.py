@@ -45,5 +45,16 @@ root, iterations = newton_raphson(expr, args.start, args.max_iterations, args.to
 print(f"Root: {root}, Iterations: {iterations}")
 
 
-# python newton.py "x**2+x+1" -h 0.00001
+"""
+python newton.py "x**2+x+1" -h 0.00001
+python newton.py "x^2-4" -s 2 -t 0.01
+python newton.py "x^2-4" -s 2 -m 10000
+python newton.py "x^2-4" -s 2 --step 0.000001
+python newton.py "x^3-x-1" -s 1 -m 5000 -t 0.00001 --step 0.000001
+python newton.py "x^3-x-1" -s 1 -m 5000 -t 0.00001 --step 0.000001
+python newton.py "sin(x)-0.5" -s 3
+python newton.py "exp(x)-2" -s 1 -m 100 -t 0.001
+python newton.py "exp(x)-2" -s 1 -m 100 -t 0.001
+python newton.py "x^2 + cos(x)" -s -2
 
+"""
