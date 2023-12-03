@@ -1,0 +1,16 @@
+{% extends 'notes/main.html' %}
+
+{% block content %}
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="card-title">{{ note.title }}</h2>
+            <h3 class="card-subtitle mb-2 text-muted">{{ note.topic }}</h3>
+            <p class="card-text">{{ note.content }}</p>
+            <p class="card-text"><small class="text-muted">Created by: {{ note.created_by }}</small></p>
+            <p class="card-text"><small class="text-muted">Created at: {{ note.created_at }}</small></p>
+            <p class="card-text"><small class="text-muted">Last updated: {{ note.updated_at }}</small></p>
+            <a href="{% url 'update_note' note.id %}" class="btn btn-primary">Update</a>
+            <a href="{% url 'delete_note' note.id %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+{% endblock %}

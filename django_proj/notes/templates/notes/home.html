@@ -1,0 +1,14 @@
+{% extends "notes/base_generic.html" %}
+{% block content %}
+  <div class="container my-4">
+    {% if user.is_authenticated %}
+      <h2 class="text-center">Welcome, {{ user.username }}!</h2>
+      <div class="mt-4">
+        <a href="{% url 'create_note' %}" class="btn btn-primary">Add a New Note</a>
+      </div>
+      <div class="mt-4">
+        <a href="{% url 'notes_list' %}" class="btn btn-secondary">View All Notes</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

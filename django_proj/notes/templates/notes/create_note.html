@@ -1,0 +1,14 @@
+{% extends "notes/base_generic.html" %}
+{% block content %}
+  <div class="container my-4">
+    <h2 class="text-center my-4">Add a New Note</h2>
+    <form method="post" class="my-4">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.as_p }}
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Home</a>
+  </div>
+{% endblock %}
