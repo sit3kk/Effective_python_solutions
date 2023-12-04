@@ -26,6 +26,8 @@ from notes.views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('notes.urls')),
+    path('', include('topics.urls')),
+    
 
     
   
