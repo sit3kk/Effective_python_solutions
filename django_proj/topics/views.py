@@ -13,10 +13,13 @@ from topics.models import Topic
 
 class TopicListView(ListView):
     model = Topic
+    template_name = 'topics/topic_list.html'
 
 
 class TopicDetailView(DetailView):
     model = Topic
+    template_name = 'topics/topic_detail.html'
+
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
@@ -26,8 +29,9 @@ class TopicDetailView(DetailView):
 
 class TopicCreate(LoginRequiredMixin, CreateView):
     model = Topic
-    fields = ['title', 'parent', 'public']
+    fields = ['title', 'parent', 'is_public']
     success_url = reverse_lazy('topic-list')
+    template_name = 'topics/topic_form.html'
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -37,6 +41,8 @@ class TopicCreate(LoginRequiredMixin, CreateView):
 class TopicUpdate(UserPassesTestMixin, UpdateView):
     model = Topic
     fields = ['title', 'parent', 'public']
+    template_name = 'topics/topic_form.html' 
+    success_url = reverse_lazy('topic-list')
 
     def test_func(self):
         return self.request.user == self.get_object().created_by
@@ -44,6 +50,8 @@ class TopicUpdate(UserPassesTestMixin, UpdateView):
 
 class TopicDelete(UserPassesTestMixin, DeleteView):
     model = Topic
+    success_url = reverse_lazy('topic-list')
+    template_name = 'topics/topic_confirm_delete.html'
     success_url = reverse_lazy('topic-list')
 
     def test_func(self):

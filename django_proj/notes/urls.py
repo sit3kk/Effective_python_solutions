@@ -8,10 +8,6 @@ urlpatterns = [
 
 
 
-    path('register/', views.registerPage, name='register'),
-    path('logout/', views.logoutUser, name='logout'),
-    path('login/', views.loginPage, name='login'),
-    path('', views.home, name='home' ),
     path('create/', NoteCreateView.as_view(), name='create_note'),
     path('notes/', NoteListView.as_view(), name='notes_list'),
     path('notes/<int:pk>/', NoteDetailView.as_view(), name='note_detail'),

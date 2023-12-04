@@ -1,0 +1,16 @@
+{% extends 'notes/base_generic.html' %}
+
+{% block content %}
+  <h2>Topics</h2>
+  <a href="{% url 'topic-create' %}" class="btn btn-primary">Add New Topic</a>
+  <ul>
+    {% for topic in object_list %}
+      <li>
+        {{ topic.title }}
+        <a href="{% url 'topic-detail' topic.id %}">View</a>
+        <a href="{% url 'topic-update' topic.id %}">Edit</a>
+        <a href="{% url 'topic-delete' topic.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

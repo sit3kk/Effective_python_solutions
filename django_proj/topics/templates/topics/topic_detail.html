@@ -1,0 +1,7 @@
+{% extends 'notes/base_generic.html' %}
+
+{% block content %}
+  <h2>{{ object.title }}</h2>
+  <!-- Add more topic details here -->
+  <a href="{% url 'topic-list' %}">Back to Topics</a>
+{% endblock %}

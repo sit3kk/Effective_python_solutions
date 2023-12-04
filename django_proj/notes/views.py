@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+from .models import Topic
 
 
 class NoteListView(LoginRequiredMixin, ListView):
@@ -36,6 +37,11 @@ class NoteCreateView(LoginRequiredMixin, CreateView):
     template_name = 'notes/create_note.html'
     fields = ['title', 'content']
     success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['topics'] = Topic.objects.all()
+        return context
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user

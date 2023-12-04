@@ -4,7 +4,30 @@
     <h2>Update Note</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update</button>
+        
+        <!-- Topic Selection -->
+        <div class="form-group">
+            <label for="id_topic">Topic:</label>
+            <select name="topic" id="id_topic" class="form-control mb-3">
+                <option value="">Select a topic</option>
+                {% for topic in topics %}
+                    <option value="{{ topic.id }}" {% if topic.id == form.instance.topic.id %}selected{% endif %}>{{ topic.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="id_title">Title:</label>
+            {{ form.title }}
+        </div>
+
+        <!-- Content Field -->
+        <div class="form-group">
+            <label for="id_content">Content:</label>
+            {{ form.content }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 {% endblock %}

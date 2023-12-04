@@ -16,7 +16,7 @@ class Topic(MPTTModel, TitleSlugDescriptionModel, TimeStampedModel):
         null=True,
         blank=True,
         related_name='children',
-        db_index=True
+        db_index=True,
     )
     is_public = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
