@@ -2,10 +2,12 @@
 {% block content %}
   <div class="container my-4">
     <h2 class="text-center my-4">Delete Note</h2>
+    <p>Are you sure you want to delete the note titled "{{ object.title }}"?</p>
+    <p>Note Details: {{ object.content }}</p>  
     <form method="post" class="my-4">
       {% csrf_token %}
-      <p>Are you sure you want to delete "{{ object }}"?</p>
       <button type="submit" class="btn btn-danger">Yes, delete</button>
+      <a href="{% url 'notes_list' %}" class="btn btn-secondary">Cancel</a> 
     </form>
   </div>
 {% endblock %}

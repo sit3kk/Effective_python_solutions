@@ -24,13 +24,12 @@ from notes import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Include URLs from the notes app
-    path('notes/', include('notes.urls')),  # This will include all URLs defined in notes/urls.py
+  
+    path('notes/', include('notes.urls')),  
 
-    # Include URLs from the topics app
-    path('topics/', include('topics.urls')),  # This will include all URLs defined in topics/urls.py
+  
+    path('topics/', include('topics.urls')), 
 
-    # Other paths like 'register', 'login', etc.
     path('register/', views.registerPage, name='register'),
     path('logout/', views.logoutUser, name='logout'),
     path('login/', views.loginPage, name='login'),

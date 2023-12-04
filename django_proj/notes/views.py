@@ -13,6 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import Topic
 
+from django.core.exceptions import PermissionDenied
+
 
 class NoteListView(LoginRequiredMixin, ListView):
     model = Note
@@ -61,18 +63,30 @@ class NoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         note = self.get_object()
         return self.request.user == note.created_by
 
+
+from django.urls import reverse
+
 class NoteDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Note
     template_name = 'notes/delete_note.html'
-    success_url = '/notes/'
+    success_url = '/'
 
     def get_queryset(self):
-        owner = self.request.user
-        return self.model.objects.filter(created_by=owner)
+        #owner = self.request.user
+        #return self.model.objects.filter(created_by=owner)
+
+        return Note.objects.all()
     
     def test_func(self):
         note = self.get_object()
         return self.request.user == note.created_by or self.request.user.is_superuser
+
+    
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to delete this note.")
+        return redirect('notes_list') 
+
+
 
 
 def home(request):

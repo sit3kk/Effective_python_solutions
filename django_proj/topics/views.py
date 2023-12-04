@@ -10,16 +10,36 @@ from django.views.generic import UpdateView
 from notes.models import Note
 from topics.models import Topic
 
+from django.http import Http404
+
 
 class TopicListView(ListView):
     model = Topic
     template_name = 'topics/topic_list.html'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Topic.objects.all()
+        else:
+            return Topic.objects.filter(is_public=True)
 
 
 class TopicDetailView(DetailView):
     model = Topic
     template_name = 'topics/topic_detail.html'
 
+
+    def get_context_data(self, **kwargs):
+        context = super(TopicDetailView, self).get_context_data(**kwargs)
+        context['notes'] = Note.objects.filter(topic=self.get_object().pk)
+        return context
+    
+    def get_object(self, queryset=None):
+        topic = super(TopicDetailView, self).get_object(queryset)
+        if topic.is_public or self.request.user.is_superuser:
+            return topic
+        else:
+            raise Http404("No topic found matching the query")
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
@@ -40,7 +60,7 @@ class TopicCreate(LoginRequiredMixin, CreateView):
 
 class TopicUpdate(UserPassesTestMixin, UpdateView):
     model = Topic
-    fields = ['title', 'parent', 'public']
+    fields = ['title', 'parent', 'is_public']
     template_name = 'topics/topic_form.html' 
     success_url = reverse_lazy('topic-list')
 

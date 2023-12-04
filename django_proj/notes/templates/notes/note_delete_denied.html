@@ -1,0 +1,9 @@
+{% extends 'notes/base_generic.html' %}
+
+{% block content %}
+  <div class="container my-4">
+    <h2>Access Denied</h2>
+    <p>You do not have permission to delete the note "{{ note.title }}".</p>
+    <a href="{% url 'notes_list' %}" class="btn btn-primary">Return to Notes List</a>
+  </div>
+{% endblock %}
