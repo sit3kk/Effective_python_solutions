@@ -7,10 +7,14 @@
         <a href="{% url 'create_note' %}" class="btn btn-primary">Add a New Note</a>
       </div>
       <div class="mt-4">
-        <a href="{% url 'topic-create' %}" class="btn btn-success">Add a New Topic</a> 
+        <a href="{% url 'topic-create' %}" class="btn btn-success">Add a New Topic</a>
       </div>
       <div class="mt-4">
         <a href="{% url 'notes_list' %}" class="btn btn-secondary">View All Notes</a>
+      </div>
+  
+      <div class="mt-4">
+        <a href="{% url 'topic-list' %}" class="btn btn-info">View All Topics</a>
       </div>
     {% endif %}
   </div>
