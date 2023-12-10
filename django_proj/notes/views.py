@@ -37,7 +37,7 @@ class NoteDetailView(DetailView):
 class NoteCreateView(LoginRequiredMixin, CreateView):
     model = Note
     template_name = 'notes/create_note.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'topic']
     success_url = '/'
 
     def get_context_data(self, **kwargs):
@@ -52,16 +52,25 @@ class NoteCreateView(LoginRequiredMixin, CreateView):
 class NoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Note
     template_name = 'notes/update_note.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'topic']
     success_url = '/'
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
-    
+
     def test_func(self):
         note = self.get_object()
         return self.request.user == note.created_by
+
+    def get_context_data(self, **kwargs):
+        context = super(NoteUpdateView, self).get_context_data(**kwargs)
+        context['topics'] = Topic.objects.all()  # Add all topics to the context
+        return context
+
+    
+
+    
 
 
 from django.urls import reverse
