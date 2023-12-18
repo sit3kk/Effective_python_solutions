@@ -1,9 +1,8 @@
 
-from fastapi import WebSocket, FastAPI, WebSocketDisconnect
+from fastapi import Request, WebSocket, FastAPI, WebSocketDisconnect
 
 app = FastAPI()
 
-# This will store active WebSocket connections
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
@@ -19,22 +18,32 @@ class ConnectionManager:
         for connection in self.active_connections:
             await connection.send_text(message)
 
-# Instantiate the connection manager
 manager = ConnectionManager()
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    # Connect the client
     await manager.connect(websocket)
     try:
         while True:
-            # Wait for any message from the client
+
             data = await websocket.receive_text()
-            # Send the message to all connected clients
             await manager.broadcast(f"Client says: {data}")
     except WebSocketDisconnect:
-        # Handle disconnection
         manager.disconnect(websocket)
         await manager.broadcast("Client left the chat")
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    print(f"Przychodzące żądanie: {request.url}")
+    response = await call_next(request)
+    print(f"Zakończenie żądania: {response.status_code}")
+    return response
+
+
+@app.get("/")
+async def read_root():
+    return {"Hello": "World"}
+
 
 
