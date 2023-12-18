@@ -1,5 +1,6 @@
 
 from fastapi import Request, WebSocket, FastAPI, WebSocketDisconnect
+from typing import List
 
 app = FastAPI()
 
@@ -32,18 +33,6 @@ async def websocket_endpoint(websocket: WebSocket):
         manager.disconnect(websocket)
         await manager.broadcast("Client left the chat")
 
-
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    print(f"Przychodzące żądanie: {request.url}")
-    response = await call_next(request)
-    print(f"Zakończenie żądania: {response.status_code}")
-    return response
-
-
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
 
 
 
